@@ -249,6 +249,12 @@ pub struct MutexData<T, OPT = DefaultLockPolicy> {
     _marker: PhantomData<OPT>,
 }
 
+impl<T, OPT> MutexData<T, OPT> {
+    pub fn into_inner(&self) -> Arc<Mutex<T>> {
+        self.lock.clone()
+    }
+}
+
 unsafe impl<T, OPT> UserData for MutexData<T, OPT>
 where
     T: NativeClass + Send,
@@ -348,6 +354,12 @@ impl<T, OPT> Clone for MutexData<T, OPT> {
 pub struct RwLockData<T, OPT = DefaultLockPolicy> {
     lock: Arc<RwLock<T>>,
     _marker: PhantomData<OPT>,
+}
+
+impl<T, OPT> RwLockData<T, OPT> {
+    pub fn into_inner(&self) -> Arc<RwLock<T>> {
+        self.lock.clone()
+    }
 }
 
 unsafe impl<T, OPT> UserData for RwLockData<T, OPT>
