@@ -595,7 +595,7 @@ mod local_cell {
         }
 
         #[inline]
-        fn inner(&self) -> Result<&RefCell<T>, LocalCellError> {
+        pub fn inner(&self) -> Result<&RefCell<T>, LocalCellError> {
             let current = thread::current().id();
 
             if self.thread_id == current {
